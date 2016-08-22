@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Listar Atendimentos" />
+			</h2>
+			<h:form id="list">
+				<p:dataTable value="#{atendimentoBean.atendimentos}"
+					var="atendimento" paginator="true" rows="4">
+
+					<p:column headerText="Médico" style="padding:0px 0px 0px 0px;">
+							#{atendimento.medico.nome}
+						</p:column>
+
+					<p:column headerText="Paciente" style="padding:0px 0px 0px 0px;">
+							#{atendimento.paciente.nome}
+						</p:column>
+
+					<p:column headerText="Receita" style="padding:0px 0px 0px 0px;">
+							#{atendimento.receita}
+						</p:column>
+
+					<p:column headerText="Recomendações"
+						style="padding:0px 0px 0px 0px;">
+						<h:outputText value="#{atendimento.recomendacoes}" escape="false"/>	
+					</p:column>
+
+					<p:column headerText="Enfermeiro" style="padding:0px 0px 0px 0px;">
+							#{atendimento.enfermeiro}
+						</p:column>
+
+					<p:column style="padding:0px 0px 0px 0px;">
+						<f:facet name="header" pattern="dd/MM/yyyy">Data</f:facet>
+						<h:outputText value="#{atendimento.data.time}">
+							<f:convertDateTime type="date" dateStyle="short"
+								pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

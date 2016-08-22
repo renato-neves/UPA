@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	 	  xmlns:f="http://java.sun.com/jsf/core"
+	 	  xmlns:h="http://java.sun.com/jsf/html"
+	 	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	 	  xmlns:p="http://primefaces.org/ui">
+	 	  
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>UPA</title>
+		<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+		<!-- <h:outputStylesheet name="bootstrap.css" library="css" /> -->
+		<h:outputStylesheet name="style.css" library="css" /> 
+	</h:head>
+	
+	<h:body>
+		<div id="cabecalho"> 
+		<h:graphicImage library="imagens" name="logo.png" id="logoCompany" />
+				<div id="usuarioLogado">
+					<h:form rendered="#{not empty loginBean.usuario.login}">
+						Logado como: #{loginBean.usuario.login}
+						<h:commandLink action="#{loginBean.logout()}" value="Sair" styleClass="btn btn-danger"/>
+					</h:form>					
+				</div>
+				<h:form style="float: right; right: 50%; margin-right: -450px;">
+				<p:themeSwitcher>
+					<f:selectItem itemLabel="Choose your theme" itemValue=""/>
+					<f:selectItem itemLabel="Afternoon" itemValue="afternoon"/>
+					<f:selectItem itemLabel="Aristo" itemValue="aristo"/>
+					<f:selectItem itemLabel="Bluesky" itemValue="bluesky"/>
+					<f:selectItem itemLabel="Boostrap" itemValue="bootstrap"/>
+					<f:selectItem itemLabel="Dot-Luv" itemValue="dot-luv"/>
+					<f:selectItem itemLabel="Midnight" itemValue="midnight"/>
+					<f:selectItem itemLabel="Rocket" itemValue="rocket"/>
+				</p:themeSwitcher>
+			</h:form>
+		</div>
+		
+		<div id="conteudo">
+			<h:form rendered="#{not empty loginBean.usuario.login}">
+				<p:menubar>
+					<p:menuitem value="Início" url="index.xhtml"/>
+					
+					<p:submenu label="Médicos">
+						<p:menuitem value="Cadastrar Medicos" url="medicos.xhtml"/>
+						<p:menuitem value="Lista Medico" url="listaMedicos.xhtml" rendered="#{not empty medicoBean.getMedicos()}"/>
+					</p:submenu>
+					
+					<p:submenu label="Paciente">
+						<p:menuitem value="Cadastrar Pacientes" url="pacientes.xhtml"/>
+						<p:menuitem value="Lista Paciente" url="listaPacientes.xhtml" rendered="#{not empty pacienteBean.getPacientes()}"/>
+					</p:submenu>
+					
+					<p:submenu label="Atendimento" rendered="#{not empty medicoBean.getMedicos() and not empty pacienteBean.getPacientes()}">
+						<p:menuitem value="Cadastrar Atendimentos" url="atendimentos.xhtml" rendered="#{not empty medicoBean.getMedicos() and not empty pacienteBean.getPacientes()}"/>
+						<p:menuitem value="Lista Atendimentos" url="listaAtendimentos.xhtml" rendered="#{not empty atendimentoBean.getAtendimentos()}"/>
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+			<ui:insert name="corpo" />
+		</div> 
+		
+		<div id="rodape">
+			Copyright 2015: Todos os direitos reservados a Renato.
+		</div>
+	</h:body>
+</html>

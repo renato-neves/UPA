@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Novo Medico"
+					rendered="#{empty medicoBean.medico.id}" />
+			</h2>
+			<h:form id="cadastro">
+				<p:messages styleClass="erros"/>
+				<fieldset>
+					<h:outputLabel value="CRM" for="crm" />
+					<p:inputMask value="#{medicoBean.medico.crm}"
+						mask="999999999-9"  id="crm" requiredMessage="CRM Obrigatório!"/>
+
+					<h:outputLabel value="Nome" for="nome" />
+					<h:inputText value="#{medicoBean.medico.nome}" id="nome" />
+
+					<h:outputLabel value="Telefone" for="telefone" />
+					<p:inputMask value="#{medicoBean.medico.telefone}"
+						mask="(99) 9 9999-9999" id="telefone"/>
+
+					<h:outputLabel value="Área" for="area" />
+					<h:inputText value="#{medicoBean.medico.area}" id="area" />
+					
+					<h:outputLabel value="Salário" for="salario" />
+					<p:inputText value="#{medicoBean.medico.salario}" id="salario" requiredMessage="Salário Obrigatório!" validatorMessage="Valor Mínimo - R$0,50">
+						<f:validateDoubleRange minimum="0.50"/>
+					</p:inputText>
+
+					<h:commandButton action="#{medicoBean.grava()}" value="Gravar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+			
+					<h:commandButton action="#{medicoBean.cancela()}" value="Cancelar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Novo Paciente"
+					rendered="#{empty pacienteBean.paciente.id}" />
+			</h2>
+			<h:form id="cadastro">
+				<p:messages styleClass="erros" />
+				<fieldset>
+					<h:outputLabel value="CPF" for="cpf" />
+					<p:inputMask value="#{pacienteBean.paciente.cpf}"
+						mask="999.999.999-99" id="cpf">
+					</p:inputMask>
+
+					<h:outputLabel value="Nome" for="nome" />
+					<h:inputText value="#{pacienteBean.paciente.nome}" id="nome" />
+
+					<h:outputLabel value="Telefone" for="telefone" />
+					<p:inputMask value="#{pacienteBean.paciente.telefone}"
+						mask="(99) 9 9999-9999" id="telefone" />
+
+					<h:outputLabel value="Endereço" for="endereco" />
+					<h:inputTextarea value="#{pacienteBean.paciente.endereco}"
+						id="endereco" />
+
+					<p:outputLabel for="sexo" value="Sexo" />
+					<p:selectOneRadio id="sexo" value="#{pacienteBean.paciente.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Feminino" itemValue="F" />
+					</p:selectOneRadio>
+
+					<h:outputLabel value="Data de Nascimento" for="dataNascimento" />
+					<p:calendar value="#{pacienteBean.paciente.dataNascimento.time}"
+						pattern="dd/MM/yyyy" mask="99/99/9999" id="dataNascimento" />
+
+					<h:commandButton action="#{pacienteBean.grava()}" value="Gravar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+
+					<h:commandButton action="#{produtoBean.cancela()}" value="Cancelar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Listar Pacientes" />
+			</h2>
+			<h:form id="list">
+				<p:dataTable value="#{pacienteBean.pacientes}" var="paciente"
+					paginator="true" rows="4">
+
+					<p:column headerText="CPF" style="padding:0px 0px 0px 0px;">
+							#{paciente.cpf}
+						</p:column>
+
+					<p:column headerText="Nome" style="padding:0px 0px 0px 0px;">
+							#{paciente.nome}
+						</p:column>
+
+					<p:column headerText="Telefone" style="padding:0px 0px 0px 0px;">
+							#{paciente.telefone}
+						</p:column>
+
+					<p:column headerText="Endereço" style="padding:0px 0px 0px 0px;">
+							#{paciente.endereco}
+						</p:column>
+
+					<p:column headerText="Sexo" style="padding:0px 0px 0px 0px;">
+							#{paciente.sexo}
+						</p:column>
+
+					<p:column style="padding:0px 0px 0px 0px;">
+						<f:facet name="header" pattern="dd/MM/yyyy">Data de Nascimento</f:facet>
+						<h:outputText value="#{paciente.dataNascimento.time}">
+							<f:convertDateTime type="date" dateStyle="short"
+								pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Editar" style="padding:0px 0px 0px 0px;">
+						<h:commandLink value="Editar" styleClass="btn">
+							<f:setPropertyActionListener value="#{paciente}"
+								target="#{pacienteBean.paciente}" />
+							<f:ajax execute="@form" render=":list :editar"></f:ajax>
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Remover" style="padding:0px 0px 0px 0px;">
+						<h:commandLink action="#{pacienteBean.remove(paciente)}"
+							value="Remover" styleClass="btn btn-danger">
+							<f:ajax render="@form"></f:ajax>
+						</h:commandLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<h2>
+				<h:outputText value="Editar Paciente"
+					rendered="#{empty pacienteBean.paciente.id}" />
+			</h2>
+
+			<h:form id="editar">
+				<p:messages styleClass="erros" />
+				<fieldset>
+					<h:outputLabel value="CPF" for="cpf" />
+					<p:inputMask value="#{pacienteBean.paciente.cpf}"
+						mask="999.999.999-99" id="cpf">
+					</p:inputMask>
+
+					<h:outputLabel value="Nome" for="nome" />
+					<h:inputText value="#{pacienteBean.paciente.nome}" id="nome" />
+
+					<h:outputLabel value="Telefone" for="telefone" />
+					<p:inputMask value="#{pacienteBean.paciente.telefone}"
+						mask="(99) 9 9999-9999" id="telefone" />
+
+					<h:outputLabel value="Endereço" for="endereco" />
+					<h:inputTextarea value="#{pacienteBean.paciente.endereco}"
+						id="endereco" />
+
+					<p:outputLabel for="sexo" value="Sexo" />
+					<p:selectOneRadio id="sexo" value="#{pacienteBean.paciente.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Feminino" itemValue="F" />
+					</p:selectOneRadio>
+
+					<h:outputLabel value="Data de Nascimento" for="dataNascimento" />
+					<p:calendar value="#{pacienteBean.paciente.dataNascimento.time}"
+						pattern="dd/MM/yyyy" mask="99/99/9999" id="dataNascimento" />
+
+					<h:commandButton action="#{pacienteBean.grava()}" value="Editar">
+						<f:ajax execute="@form" render=":editar :list"></f:ajax>
+					</h:commandButton>
+
+					<h:commandButton action="#{produtoBean.cancela()}" value="Cancelar">
+						<f:ajax execute="@form" render=":editar"></f:ajax>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

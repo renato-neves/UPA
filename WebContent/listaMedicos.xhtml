@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Listar Médicos" />
+			</h2>
+			<h:form id="list">
+				<p:dataTable value="#{medicoBean.medicos}" var="medico"
+					paginator="true" rows="4">
+
+					<p:column headerText="CRM" style="padding:0px 0px 0px 0px;">
+							#{medico.crm}
+						</p:column>
+
+					<p:column headerText="Nome" style="padding:0px 0px 0px 0px;">
+							#{medico.nome}
+						</p:column>
+
+					<p:column headerText="Telefone" style="padding:0px 0px 0px 0px;">
+							#{medico.telefone}
+						</p:column>
+
+					<p:column headerText="Área" style="padding:0px 0px 0px 0px;">
+							#{medico.area}
+						</p:column>
+
+					<p:column headerText="Salário" style="padding:0px 0px 0px 0px;">
+							#{medico.salario}
+						</p:column>
+
+					<p:column headerText="Editar" style="padding:0px 0px 0px 0px;">
+						<h:commandLink value="Editar" styleClass="btn">
+							<f:setPropertyActionListener value="#{medico}"
+								target="#{medicoBean.medico}" />
+							<f:ajax execute="@form" render=":list :editar"></f:ajax>
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Remover" style="padding:0px 0px 0px 0px;">
+						<h:commandLink action="#{medicoBean.remove(medico)}"
+							value="Remover" styleClass="btn btn-danger">
+							<f:ajax render="@form"></f:ajax>
+						</h:commandLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<h2>
+				<h:outputText value="Editar Medico"
+					rendered="#{empty medicoBean.medico.id}" />
+			</h2>
+
+			<h:form id="editar">
+				<p:messages styleClass="erros" />
+				<fieldset>
+					<h:outputLabel value="CRM" for="crm" />
+					<p:inputMask value="#{medicoBean.medico.crm}" mask="999999999-9"
+						id="crm" requiredMessage="CRM Obrigatório!" />
+
+					<h:outputLabel value="Nome" for="nome" />
+					<h:inputText value="#{medicoBean.medico.nome}" id="nome" />
+
+					<h:outputLabel value="Telefone" for="telefone" />
+					<p:inputMask value="#{medicoBean.medico.telefone}"
+						mask="(99) 9 9999-9999" id="telefone" />
+
+					<h:outputLabel value="Área" for="area" />
+					<h:inputText value="#{medicoBean.medico.area}" id="area" />
+
+					<h:outputLabel value="Salário" for="salario" />
+					<p:inputText value="#{medicoBean.medico.salario}" id="salario"
+						requiredMessage="Salário Obrigatório!"
+						validatorMessage="Valor Mínimo - R$0,50">
+						<f:validateDoubleRange minimum="0.50" />
+					</p:inputText>
+
+					<h:commandButton action="#{medicoBean.grava()}" value="Editar">
+						<f:ajax execute="@form" render=":editar :list"></f:ajax>
+					</h:commandButton>
+
+					<h:commandButton action="#{medicoBean.cancela()}" value="Cancelar">
+						<f:ajax execute="@form" render=":editar"></f:ajax>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

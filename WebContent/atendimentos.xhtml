@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="corpo">
+			<h2>
+				<h:outputText value="Novo Atendimento"
+					rendered="#{empty atendimentoBean.atendimento.id}" />
+			</h2>
+			<h:form id="cadastro">
+				<p:messages styleClass="erros" />
+				<fieldset>
+					<h:outputLabel value="Nome Médico" for="nomeMedico" />
+					<h:selectOneMenu value="#{atendimentoBean.idMedico}">
+						<f:selectItems value="#{medicoBean.medicos}" var="medico"
+							itemValue="#{medico.id}" itemLabel="#{medico.nome}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel value="Nome Paciente" for="nomePaciente" />
+					<h:selectOneMenu value="#{atendimentoBean.idPaciente}">
+						<f:selectItems value="#{pacienteBean.pacientes}" var="paciente"
+							itemValue="#{paciente.id}" itemLabel="#{paciente.nome}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel value="Receita" for="receita" />
+					<h:inputText value="#{atendimentoBean.atendimento.receita}"
+						id="receita" />
+
+					<h:outputLabel value="Recomendações" for="recomendacoes" />
+					<p:editor id="recomendacoes" widgetVar="editorWidget"
+						value="#{atendimentoBean.atendimento.recomendacoes}" width="600" />
+					<h:panelGrid columns="2"
+						style="margin-top: 10px; margin-left: 135px;">
+						<p:commandButton value="Limpar" type="button"
+							onclick="PF('editorWidget').clear();" icon="ui-icon-refresh" />
+					</h:panelGrid>
+
+					<h:outputLabel value="Enfermeiro" for="enfermeiro" />
+					<h:inputText value="#{atendimentoBean.atendimento.enfermeiro}"
+						id="enfermeiro" />
+
+					<h:outputLabel value="Data" for="data" />
+					<p:calendar value="#{atendimentoBean.atendimento.data.time}"
+						pattern="dd/MM/yyyy" mask="99/99/9999" id="data" />
+
+					<h:commandButton action="#{atendimentoBean.grava()}" value="Gravar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+
+					<h:commandButton action="#{atendimentoBean.cancela()}"
+						value="Cancelar">
+						<f:ajax execute="@form" render=":cadastro"></f:ajax>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
